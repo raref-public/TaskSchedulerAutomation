@@ -20,7 +20,7 @@ Create Scheduled tasks using a gMSA (service account) within an Active Directory
 * Create a Service account with .\scripts\CreateGMSA.ps1
 * Make sure you have set the GPO to allow your service account to have the logon as service right for your current machine
 	* pending screenshot
-	* ![Demo of the Project](https://github.com/raref-public/TaskSchedulerAutomation/repo_pics/GPO_SETTINGS.png)
+	* ![Demo of the Project](https://github.com/raref-public/TaskSchedulerAutomation/blob/main/repo_pics/GPO_SETTINGS.png)
 
 * Test your domain, service account with the .\tests\New-TSADailyTask.Tests.ps1
 
