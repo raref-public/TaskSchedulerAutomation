@@ -4,6 +4,7 @@ $gMSAName = "PacketP_gMSA" # Replace with your gMSA name
 $domain = "PacketPunisher.com" # Replace with your domain
 $groupName = "gMSA_Admins" # Replace with your group name
 $groupPath = "OU=Domain Service Accounts,DC=PacketPunisher,DC=com"  # Replace with your domain path
+$allowedComputer = 'CN=WIN11-KVM-VM,OU=Domain Computers,DC=PacketPunisher,DC=com'
 
 # Step 1: Verify if a KDS Root Key exists
 $kdsRootKey = Get-KdsRootKey
@@ -30,6 +31,7 @@ if (-not (Get-ADGroup -Filter {Name -eq $groupName})) {
 if (-not (Get-ADServiceAccount -Filter {Name -eq $gMSAName})) {
     Write-Host "Creating the gMSA account $gMSAName..."
     New-ADServiceAccount -Name $gMSAName -DNSHostName "$gMSAName.$domain" -PrincipalsAllowedToRetrieveManagedPassword $groupName
+    Set-ADServiceAccount -Identity 'PacketP_gMSA$' -PrincipalsAllowedToRetrieveManagedPassword $allowedComputer
     Write-Host "gMSA account $gMSAName created."
 } else {
     Write-Host "gMSA account $gMSAName already exists."
@@ -37,7 +39,7 @@ if (-not (Get-ADServiceAccount -Filter {Name -eq $gMSAName})) {
 
 # Step 4: Install the gMSA on the Target Server
 Write-Host "Installing the gMSA account $gMSAName on the target server..."
-Install-ADServiceAccount -Identity $gMSAName
+Install-ADServiceAccount -Identity $gMSAName -
 Write-Host "gMSA account $gMSAName installed on the target server."
 
 # Step 5: Verify the gMSA Installation

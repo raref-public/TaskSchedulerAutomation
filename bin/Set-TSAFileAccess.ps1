@@ -20,8 +20,8 @@ function Set-TSAFileAccess {
             $FileSystemObj_AclRule = New-Object System.Security.AccessControl.FileSystemAccessRule(
                 "${Domain}\${Account}",
                 "${Attributes}",
-                "ContainerInherit, ObjectInherit",
-                "None",
+                #"ContainerInherit, ObjectInherit",
+                #"None",
                 "Allow"
             )
 

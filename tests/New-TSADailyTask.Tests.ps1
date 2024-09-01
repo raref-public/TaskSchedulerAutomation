@@ -15,6 +15,8 @@ $ModuleFunctionArgs = @{
 # DEFINE YOUR DOMAIN  AND SERVICE ACCOUNT !!!
 $DOMAIN=((Get-WmiObject Win32_ComputerSystem).Domain).split('.')[0] -replace "`n" # so if your domain is consto.local, just put consto
 $SERVICE_ACCOUNT="PacketP_gMSA$" # service accounts sAMAccountName end with a $, just like computer objects in AD
+# TBE find the exact rights to use msg.exe, at the moment added user to local admin
+#Add-LocalGroupMember -Group 'Administrators' -Member "${DOMAIN}\${SERVICE_ACCOUNT}"
 
 # test if module present then reload module import
 $ModuleName = 'TaskSchedulerAutomation' 
@@ -27,9 +29,10 @@ $ModuleFunctionArgs_1 = @{
     SchtaskFolder = "${DOMAIN}"
     SchtaskName = "TEST"
     Executable = 'C:\Windows\System32\msg.exe'
-    SchtaskArgumentString = "$env:USERNAME hello"
+    AddExecutePermissions = $true
+    SchtaskArgumentString = "/SERVER:localhost $env:USERNAME  Congratulations you have configured and built a scheduled task!"
     ServiceAccount = "${SERVICE_ACCOUNT}"
-    At = (Get-Date).AddSeconds(30)
+    At = (Get-Date).AddSeconds(10)
     Domain = "${DOMAIN}"
 }
 

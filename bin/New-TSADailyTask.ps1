@@ -8,6 +8,7 @@ function New-TSADailyTask {
         $SchtaskFolder,
         $SchtaskName,
         $Executable,
+        [switch]$AddExecutePermissions,
         $SchtaskArgumentString,
         $ServiceAccount,
         $At,
@@ -15,8 +16,15 @@ function New-TSADailyTask {
     )
     
     begin {
+        # check that user is running in elevated context to manage schtasks
         $IsElevated = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
         if (-Not $IsElevated) {Write-Error -Category PermissionDenied -Message "Must run in elevated context"}
+
+        # add permissions for service account to run executable
+        if ($AddExecutePermissions) {
+            #Set-TSAFileAccess -DirectoryPaths (Split-Path $Executable) -Domain $Domain -Account $ServiceAccount -Attributes 'ReadAndExecute'
+            Set-TSAFileAccess -DirectoryPaths $Executable -Domain $Domain -Account $ServiceAccount -Attributes 'ReadAndExecute'
+        }
 
         # make user root folders available
         $scheduledObject = New-Object -ComObject schedule.service
@@ -45,8 +53,8 @@ function New-TSADailyTask {
     }
     
     end {
-        cmd.exe /C "${PSScriptRoot}.\gMSA_config.bat ${SchtaskName} ${ServiceAccount}"
-        foreach ($i in (29 .. 1)) {
+        cmd.exe /C "${PSScriptRoot}.\gMSA_config.bat ${SchtaskName} ${ServiceAccount} ${Domain} ${SchtaskFolder}"
+        foreach ($i in (10 .. 1)) {
             Write-Output "Scheduled task executing in ${i}"
             Start-Sleep 1
         }

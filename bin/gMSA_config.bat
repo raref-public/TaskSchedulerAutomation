@@ -7,5 +7,5 @@ set FOLDER=%4
 
 echo Changin scheduled task "%TASKNAME%" to run under account: "%ACCOUNT%"
 
-echo schtasks /change /TN \Memnon\%TASKNAME% /RU memnon.local\%ACCOUNT% /RP
+echo schtasks /change /TN \%FOLDER%\%TASKNAME% /RU %DOMAIN%\%ACCOUNT% /RP
 schtasks /change /TN \%FOLDER%\%TASKNAME% /RU %DOMAIN%\%ACCOUNT% /RP
