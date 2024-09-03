@@ -12,8 +12,8 @@ $kdsRootKey = Get-KdsRootKey
 if (-not $kdsRootKey) {
     Write-Host "No KDS Root Key found. Creating a new KDS Root Key... with
     # Creates a KDS root key with immediate effect (approximately 10 hours delay)
-    Add-KdsRootKey -Effective
     "
+    Add-KdsRootKey -EffectiveTime (Get-Date).AddDays(-1)
 } else {
     Write-Host "KDS Root Key already exists."
 }
