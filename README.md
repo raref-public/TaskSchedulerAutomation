@@ -4,6 +4,7 @@ Create Scheduled tasks using a gMSA (service account) within an Active Directory
 
 ### What is this repository for? ###
 
+* ![Demo of the Project](https://github.com/raref-public/TaskSchedulerAutomation/blob/main/repo_pics/DailyTaskAnimation.gif)
 * Create a Service Account, run .\scripts\CreateGMSA.ps1 on your domain controller (read the file and edit parameters).
 * Use functions in .\bin
 	* Get-TSAFileAccess: Compare granular file permissions

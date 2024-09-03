@@ -16,7 +16,7 @@ $ModuleFunctionArgs = @{
 $DOMAIN=((Get-WmiObject Win32_ComputerSystem).Domain).split('.')[0] -replace "`n" # so if your domain is consto.local, just put consto
 $SERVICE_ACCOUNT="PacketP_gMSA$" # service accounts sAMAccountName end with a $, just like computer objects in AD
 # TBE find the exact rights to use msg.exe, at the moment added user to local admin
-#Add-LocalGroupMember -Group 'Administrators' -Member "${DOMAIN}\${SERVICE_ACCOUNT}"
+# Add-LocalGroupMember -Group 'Administrators' -Member "${DOMAIN}\${SERVICE_ACCOUNT}"
 
 # test if module present then reload module import
 $ModuleName = 'TaskSchedulerAutomation' 
